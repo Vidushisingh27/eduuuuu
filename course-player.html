@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edunova | Course Player</title>
+    <meta name="description" content="Edunova course player with episode-style lesson navigation, video playback, notes, and discussion." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="course-player.css" />
+  </head>
+  <body>
+    <main class="player-app" data-player-app>
+      <header class="player-topbar">
+        <a class="player-back" href="dashboard.html" aria-label="Back to dashboard">
+          <i class="ri-arrow-left-line"></i>
+          Back
+        </a>
+
+        <div class="player-course-meta">
+          <p class="player-kicker">Course Player</p>
+          <h1 data-course-title>Loading course...</h1>
+          <div class="player-meta-row">
+            <span><i class="ri-user-3-line"></i> <strong data-course-instructor>Edunova</strong></span>
+            <span><i class="ri-time-line"></i> <strong data-course-duration>--</strong></span>
+            <span><i class="ri-bar-chart-2-line"></i> <strong data-course-progress>0%</strong> complete</span>
+          </div>
+        </div>
+
+        <div class="player-topbar-actions">
+          <button class="topbar-pill" type="button" data-resume-current>
+            <i class="ri-play-circle-line"></i>
+            Resume
+          </button>
+          <button class="topbar-pill ghost" type="button" data-add-wishlist>
+            <i class="ri-heart-line"></i>
+            Wishlist
+          </button>
+        </div>
+      </header>
+
+      <section class="player-shell">
+        <div class="player-main">
+          <div class="video-card">
+            <div class="video-card__header">
+              <div>
+                <p class="video-kicker">Now Playing</p>
+                <h2 data-lesson-title>Loading lesson...</h2>
+                <p class="video-subtitle" data-lesson-subtitle>Choose a lesson from the right panel</p>
+              </div>
+              <div class="lesson-progress-pill">
+                <span>Lesson</span>
+                <strong data-lesson-count>1 / 1</strong>
+              </div>
+            </div>
+
+            <div class="player-stage" data-player-stage>
+              <div class="player-placeholder">
+                <i class="ri-play-circle-line"></i>
+                <p>Select a lesson to begin playback</p>
+              </div>
+            </div>
+
+            <div class="video-toolbar">
+              <div class="toolbar-group">
+                <span class="toolbar-label">Volume</span>
+                <input type="range" min="0" max="1" step="0.05" value="1" data-volume-slider />
+              </div>
+              <button class="toolbar-btn" type="button" data-fullscreen-btn>
+                <i class="ri-fullscreen-line"></i>
+                Fullscreen
+              </button>
+              <button class="toolbar-btn" type="button" data-mark-complete>
+                <i class="ri-check-double-line"></i>
+                Mark Complete
+              </button>
+            </div>
+
+            <p class="video-note" data-video-status>Watching will update your progress automatically.</p>
+          </div>
+
+          <div class="tabs-card">
+            <div class="tab-list" role="tablist">
+              <button class="tab-btn is-active" type="button" data-tab-target="overview" role="tab">Overview</button>
+              <button class="tab-btn" type="button" data-tab-target="notes" role="tab">Notes</button>
+              <button class="tab-btn" type="button" data-tab-target="resources" role="tab">Resources</button>
+              <button class="tab-btn" type="button" data-tab-target="discussion" role="tab">Discussion</button>
+            </div>
+
+            <section class="tab-panel is-active" data-tab-panel="overview" role="tabpanel">
+              <div class="overview-grid">
+                <article class="overview-card">
+                  <h3>Course Overview</h3>
+                  <p data-course-description>Loading course description...</p>
+                </article>
+                <article class="overview-card">
+                  <h3>Continue Learning</h3>
+                  <p data-resume-copy>Resuming from the last watched lesson.</p>
+                  <div class="progress-track">
+                    <span data-course-progress-bar style="width: 0%"></span>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <section class="tab-panel" data-tab-panel="notes" role="tabpanel">
+              <div class="notes-layout">
+                <textarea class="notes-editor" rows="8" data-notes-editor placeholder="Write your personal notes for this course..."></textarea>
+                <div class="notes-actions">
+                  <button class="toolbar-btn primary" type="button" data-save-notes>Save Notes</button>
+                  <button class="toolbar-btn" type="button" data-clear-notes>Clear</button>
+                </div>
+              </div>
+            </section>
+
+            <section class="tab-panel" data-tab-panel="resources" role="tabpanel">
+              <div class="resources-grid">
+                <article class="resource-card">
+                  <h3>Video Source Manager</h3>
+                  <p>Upload an MP4 lesson file or paste a YouTube link for the currently selected lesson.</p>
+                  <div class="source-form">
+                    <label>
+                      <span>Upload MP4</span>
+                      <input type="file" accept="video/mp4" data-video-upload />
+                    </label>
+                    <label>
+                      <span>YouTube Link</span>
+                      <input type="url" placeholder="https://www.youtube.com/watch?v=..." data-youtube-input />
+                    </label>
+                    <div class="source-actions">
+                      <button class="toolbar-btn primary" type="button" data-save-video-source>Save Video</button>
+                      <button class="toolbar-btn" type="button" data-reset-video-source>Reset Lesson Video</button>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="resource-card">
+                  <h3>Resources</h3>
+                  <ul class="resource-list">
+                    <li><i class="ri-file-pdf-line"></i> Slide deck and chapter notes</li>
+                    <li><i class="ri-code-s-slash-line"></i> Starter project files</li>
+                    <li><i class="ri-download-2-line"></i> Downloadable practice assets</li>
+                  </ul>
+                  <button class="toolbar-btn ghost" type="button" data-download-resources>Download All Resources</button>
+                </article>
+              </div>
+            </section>
+
+            <section class="tab-panel" data-tab-panel="discussion" role="tabpanel">
+              <div class="discussion-layout">
+                <form class="discussion-form" data-discussion-form>
+                  <textarea rows="4" placeholder="Write a discussion post or a question..." data-discussion-input></textarea>
+                  <button class="toolbar-btn primary" type="submit">Post Comment</button>
+                </form>
+                <div class="discussion-list" data-discussion-list></div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <aside class="player-sidebar">
+          <div class="sidebar-card sidebar-progress">
+            <div class="sidebar-progress__head">
+              <span>Course Progress</span>
+              <strong data-sidebar-progress>0%</strong>
+            </div>
+            <div class="progress-track progress-track--wide">
+              <span data-sidebar-progress-bar style="width: 0%"></span>
+            </div>
+            <p data-sidebar-resume>Resume from the first lesson.</p>
+          </div>
+
+          <div class="sidebar-card">
+            <div class="sidebar-card__head">
+              <h3>Lessons</h3>
+              <p>Series-style episode list</p>
+            </div>
+            <div class="module-list" data-module-list></div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="api-client.js"></script>
+    <script src="course-database.js"></script>
+    <script src="course-player.js"></script>
+  </body>
+</html>

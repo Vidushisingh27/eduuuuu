@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edunova | Learning Dashboard</title>
+    <meta
+      name="description"
+      content="Edunova student dashboard with premium cinematic experience covering web development, data science, operating systems, and DBMS courses."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="dashboard.css" />
+    <link rel="stylesheet" href="quiz.css" />
+    <link rel="stylesheet" href="learning-games.css" />
+    
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
+  </head>
+  <body>
+    <header class="dash-nav">
+      <div class="dash-container dash-nav-inner">
+        <a href="#top" class="dash-logo" data-nav-route="home">Edunova</a>
+
+        <nav class="dash-menu" aria-label="Dashboard navigation">
+          <a href="#top" data-nav-route="home">Home</a>
+          <a href="#discover" data-nav-route="courses">Courses</a>
+          <a href="./notes.html" data-nav-route="notes">Notes</a>
+          <a href="#games" data-nav-route="games">Games</a>
+          <a href="./edunova-chatbot.html" data-nav-route="chatbot" target="_blank" rel="noopener noreferrer">AI Mentor</a>
+          <a href="#settings-shell" data-nav-route="settings">Settings</a>
+        </nav>
+
+        <div class="dash-tools">
+          <div class="smart-search-wrapper" data-search-wrapper>
+            <button class="search-toggle-btn" type="button" aria-label="Toggle search" data-search-toggle>
+              <i class="ri-search-line"></i>
+            </button>
+            <div class="search-container" data-search-container hidden>
+              <input 
+                type="search" 
+                class="search-input" 
+                placeholder="Search courses, topics..." 
+                data-search-input
+                aria-label="Search courses and topics"
+              />
+              <div class="search-suggestions" data-search-suggestions hidden aria-hidden="true" role="listbox">
+                <div class="suggestions-section">
+                  <div class="suggestions-label">Courses</div>
+                  <div class="suggestions-list" data-suggestions-courses></div>
+                </div>
+                <div class="suggestions-section">
+                  <div class="suggestions-label">Categories</div>
+                  <div class="suggestions-list" data-suggestions-categories></div>
+                </div>
+                <div class="suggestions-section">
+                  <div class="suggestions-label">Recent Searches</div>
+                  <div class="suggestions-list" data-suggestions-recent></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="icon-btn" type="button" aria-label="Notifications">
+            <i class="ri-notification-3-line"></i>
+          </button>
+          <div class="profile-menu" data-profile-menu>
+            <button class="profile-trigger" type="button" aria-expanded="false" aria-label="Open profile menu" data-profile-trigger>
+              <span class="avatar"><span>AB</span></span>
+              <span class="profile-name">Aarav B.</span>
+              <i class="ri-arrow-down-s-line"></i>
+            </button>
+            <div class="profile-dropdown" role="menu" aria-hidden="true" data-profile-dropdown>
+              <button type="button" role="menuitem" data-profile-action="profile"><i class="ri-user-3-line"></i> View Profile</button>
+              <button type="button" role="menuitem" data-profile-action="learning"><i class="ri-book-open-line"></i> My Learning</button>
+              <button type="button" role="menuitem" data-profile-action="settings"><i class="ri-settings-3-line"></i> Settings</button>
+              <button type="button" role="menuitem" data-profile-action="logout"><i class="ri-logout-box-r-line"></i> Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <div class="dashboard-view" data-dashboard-view>
+      <section class="hero-slider" aria-label="Featured learning slider">
+        <div class="slider-rail" data-slider>
+          <article class="hero-slide slide-one is-active">
+            <div class="slide-overlay"></div>
+            <div class="dash-container slide-content">
+              <p class="slide-kicker">Featured learning path</p>
+              <h1>Master Web Development</h1>
+              <p>
+                Build modern websites, responsive interfaces, and job-ready projects with guided lessons.
+              </p>
+              <div class="slide-actions">
+                <a href="#discover" class="btn btn-primary">Browse Courses</a>
+                <a href="#discover" class="btn btn-ghost">Start Now</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="hero-slide slide-two">
+            <div class="slide-overlay"></div>
+            <div class="dash-container slide-content">
+              <p class="slide-kicker">Trending path</p>
+              <h1>Data Science Accelerator</h1>
+              <p>
+                Learn analytics, Python workflows, and dashboard storytelling from practical case studies.
+              </p>
+              <div class="slide-actions">
+                <a href="#discover" class="btn btn-primary">Browse Courses</a>
+                <a href="#discover" class="btn btn-ghost">Start Now</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="hero-slide slide-three">
+            <div class="slide-overlay"></div>
+            <div class="dash-container slide-content">
+              <p class="slide-kicker">New course</p>
+              <h1>Operating Systems Lab</h1>
+              <p>
+                Explore processes, memory, file systems, and scheduling with clarity.
+              </p>
+              <div class="slide-actions">
+                <a href="#discover" class="btn btn-primary">Browse Courses</a>
+                <a href="#discover" class="btn btn-ghost">Start Now</a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <button class="slider-arrow left" type="button" aria-label="Previous slide">
+          <i class="ri-arrow-left-s-line"></i>
+        </button>
+        <button class="slider-arrow right" type="button" aria-label="Next slide">
+          <i class="ri-arrow-right-s-line"></i>
+        </button>
+
+        <div class="slider-dots" aria-label="Slider pagination">
+          <button class="dot is-active" type="button" aria-label="Go to slide 1"></button>
+          <button class="dot" type="button" aria-label="Go to slide 2"></button>
+          <button class="dot" type="button" aria-label="Go to slide 3"></button>
+        </div>
+      </section>
+
+      <section class="dash-section continue-section" id="continue" data-continue-section hidden>
+        <div class="dash-container">
+          <div class="section-head">
+            <div>
+              <p class="section-tag">Resume where you left off</p>
+              <h2>Continue Learning</h2>
+            </div>
+            <a href="./course-player.html" class="section-link" data-continue-open>Open player</a>
+          </div>
+
+          <article class="continue-card" data-continue-card>
+            <div class="continue-card__media" data-continue-media></div>
+
+            <div class="continue-card__content">
+              <p class="continue-card__eyebrow" data-continue-course-category>Continue Learning</p>
+              <h3 data-continue-course-title>Pick a lesson to begin</h3>
+              <p class="continue-card__copy" data-continue-copy>Once you start watching a lesson, your resume card will appear here.</p>
+
+              <div class="continue-card__meta">
+                <span data-continue-lesson>Waiting for your first lesson</span>
+                <span data-continue-duration></span>
+              </div>
+
+              <div class="progress-line continue-progress" aria-hidden="true">
+                <span data-continue-progress-bar style="width: 0%"></span>
+              </div>
+
+              <p class="continue-card__status" data-continue-status>Start any course video to unlock this card.</p>
+            </div>
+
+            <div class="continue-card__actions">
+              <div class="continue-card__stat">
+                <strong data-continue-progress-value>0%</strong>
+                <span>Complete</span>
+              </div>
+              <a href="./course-player.html" class="btn btn-primary continue-card__resume" data-continue-cta>Resume</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="dash-section">
+        <div class="dash-container">
+          <div class="section-head">
+            <div>
+              <p class="section-tag">Hand-picked for you</p>
+              <h2>Trending Courses</h2>
+            </div>
+            <a href="#" class="section-link">Browse more</a>
+          </div>
+
+          <div class="rail-scroll wide" data-rail>
+            <article class="course-card skeleton" role="button" tabindex="0" data-open-course-player data-course-id="1">
+              <div class="course-poster poster-1"></div>
+              <div class="course-body">
+                <h3>Full Stack Development</h3>
+                <div class="course-meta"><span>⭐ 4.9</span><span>12h 40m</span></div>
+              </div>
+            </article>
+            <article class="course-card skeleton" role="button" tabindex="0" data-open-course-player data-course-id="2">
+              <div class="course-poster poster-2"></div>
+              <div class="course-body">
+                <h3>Data Visualization</h3>
+                <div class="course-meta"><span>⭐ 4.8</span><span>8h 20m</span></div>
+              </div>
+            </article>
+            <article class="course-card skeleton" role="button" tabindex="0" data-open-course-player data-course-id="3">
+              <div class="course-poster poster-3"></div>
+              <div class="course-body">
+                <h3>Operating Systems Concepts</h3>
+                <div class="course-meta"><span>⭐ 4.7</span><span>6h 15m</span></div>
+              </div>
+            </article>
+            <article class="course-card skeleton" role="button" tabindex="0" data-open-course-player data-course-id="4">
+              <div class="course-poster poster-4"></div>
+              <div class="course-body">
+                <h3>DBMS and SQL Mastery</h3>
+                <div class="course-meta"><span>⭐ 4.9</span><span>10h 05m</span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="dash-section" id="discover">
+        <div class="dash-container">
+          <div class="section-head">
+            <div>
+              <p class="section-tag">Explore & learn</p>
+              <h2>Discover Courses</h2>
+            </div>
+            <a href="#" class="section-link" data-browse-all>Browse all courses</a>
+          </div>
+
+          <div class="discover-filters" data-category-filters>
+            <button class="filter-btn is-active" type="button" data-filter="all">All Courses</button>
+            <button class="filter-btn" type="button" data-filter="Web Development">Web Development</button>
+            <button class="filter-btn" type="button" data-filter="Data Science">Data Science</button>
+            <button class="filter-btn" type="button" data-filter="Operating Systems">Operating Systems</button>
+            <button class="filter-btn" type="button" data-filter="Database">Database</button>
+            <button class="filter-btn" type="button" data-filter="Artificial Intelligence">AI & ML</button>
+          </div>
+
+          <div class="courses-gallery" data-courses-gallery>
+            <div class="gallery-placeholder">
+              <p>Loading courses...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- QUIZ SECTION -->
+      <section class="dash-section" id="quiz-section-wrapper">
+        <div class="dash-container quiz-wrapper">
+          <!-- NAME GATE MODAL -->
+          <div id="quiz-name-gate" class="quiz-name-gate-container">
+            <div class="quiz-name-gate-card">
+              <h1>🎯 Quiz Challenge</h1>
+              <p>Test your knowledge and earn points! Enter your name to get started.</p>
+              <input
+                type="text"
+                id="quiz-name-input"
+                placeholder="Enter your name..."
+                autocomplete="off"
+                aria-label="Enter your name"
+              />
+              <button id="quiz-start-btn" type="button" aria-label="Start Quiz">
+                Start Quiz 🚀
+              </button>
+            </div>
+          </div>
+
+          <!-- CATEGORY SELECTION -->
+          <div id="quiz-categories" role="region" aria-label="Quiz categories">
+            <div class="quiz-category-header">
+              <h2>Choose a Category</h2>
+              <p>Select a category to test your knowledge</p>
+            </div>
+
+            <div class="quiz-categories-grid">
+              <button
+                class="quiz-category-btn"
+                data-quiz-category-btn="Operating System"
+                type="button"
+              >
+                <span class="quiz-category-btn-icon">🖥️</span>
+                Operating System
+              </button>
+              <button
+                class="quiz-category-btn"
+                data-quiz-category-btn="Cloud Computing"
+                type="button"
+              >
+                <span class="quiz-category-btn-icon">☁️</span>
+                Cloud Computing
+              </button>
+              <button
+                class="quiz-category-btn"
+                data-quiz-category-btn="Data Science"
+                type="button"
+              >
+                <span class="quiz-category-btn-icon">📊</span>
+                Data Science
+              </button>
+              <button
+                class="quiz-category-btn"
+                data-quiz-category-btn="Essentials"
+                type="button"
+              >
+                <span class="quiz-category-btn-icon">⚡</span>
+                Essentials
+              </button>
+            </div>
+
+            <div class="quiz-category-back">
+              <button
+                id="quiz-category-back-btn"
+                type="button"
+                aria-label="Go back to name entry"
+              >
+                ← Back
+              </button>
+            </div>
+          </div>
+
+          <!-- QUIZ CARD -->
+          <div
+            id="quiz-card-container"
+            role="region"
+            aria-label="Quiz question card"
+          >
+            <div class="quiz-header">
+              <div class="quiz-info">
+                <div class="quiz-info-item">
+                  <span class="quiz-info-label">Question</span>
+                  <span class="quiz-info-value" id="quiz-question-number">
+                    Q1 / 5
+                  </span>
+                </div>
+                <div class="quiz-info-item">
+                  <span class="quiz-info-label">Category</span>
+                  <span class="quiz-info-value" id="quiz-category-name">
+                    OS
+                  </span>
+                </div>
+                <div class="quiz-info-item">
+                  <span class="quiz-info-label">Score</span>
+                  <span class="quiz-info-value" id="quiz-score-display">0</span>
+                </div>
+              </div>
+
+              <div class="quiz-progress">
+                <div class="quiz-progress-label">Progress</div>
+                <div class="quiz-progress-bar">
+                  <div id="quiz-progress-bar"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-card">
+              <div class="quiz-card-content">
+                <h3 id="quiz-question-text" aria-live="polite">
+                  Loading question...
+                </h3>
+                <div id="quiz-options" role="group" aria-label="Answer options">
+                </div>
+              </div>
+            </div>
+
+            <div id="quiz-meme-container" role="region" aria-label="Meme display">
+              <div class="quiz-meme-card">
+                <div id="quiz-meme-image" aria-hidden="true"></div>
+                <div id="quiz-meme-text"></div>
+              </div>
+            </div>
+
+            <div class="quiz-actions">
+              <button
+                id="quiz-next-btn"
+                type="button"
+                aria-label="Next question"
+              >
+                Next Question →
+              </button>
+            </div>
+          </div>
+
+          <!-- RESULT SCREEN -->
+          <div
+            id="quiz-result-container"
+            role="region"
+            aria-label="Quiz results"
+          >
+            <div class="quiz-result-card">
+              <div class="quiz-result-trophy">🏆</div>
+              <div class="quiz-result-name">
+                Great job, <strong id="result-user-name">Name</strong>!
+              </div>
+
+              <div class="quiz-result-score">
+                <div class="score-value" id="result-score">0</div>
+                <div class="score-meta">
+                  <div class="score-label">Score</div>
+                  <div class="score-total">
+                    Out of <span id="result-total">50</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="quiz-result-percentage" id="result-percentage">
+                0%
+              </div>
+              <p id="result-message">Great attempt!</p>
+
+              <div class="quiz-detailed-results" id="quiz-detailed-results"></div>
+
+              <div class="quiz-result-actions">
+                <button
+                  id="quiz-restart-btn"
+                  type="button"
+                  aria-label="Take quiz again"
+                >
+                  Take Quiz Again 🔄
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dash-section" id="games">
+        <div class="dash-container">
+          <div class="section-head">
+            <div>
+              <p class="section-tag">Gamified learning</p>
+              <h2>Learning Games</h2>
+            </div>
+          </div>
+
+          <div class="learning-games-overview" data-learning-games-overview>
+            <div class="learning-games-player">
+              <label for="learning-games-name">Player Name</label>
+              <input id="learning-games-name" type="text" placeholder="Enter your name" autocomplete="off" />
+              <p data-learning-games-name-error></p>
+            </div>
+            <div class="learning-games-stats">
+              <div>
+                <span>Global Score</span>
+                <strong data-learning-games-global-score>0</strong>
+              </div>
+              <div>
+                <span>Completed</span>
+                <strong data-learning-games-completed>0/3</strong>
+              </div>
+              <div>
+                <span>Progress</span>
+                <strong data-learning-games-progress-label>0%</strong>
+              </div>
+            </div>
+            <div class="learning-games-progress">
+              <span data-learning-games-progress-bar style="width: 0%"></span>
+            </div>
+          </div>
+
+          <div class="games-grid learning-games-grid" data-learning-games-grid>
+            <button class="game-card game-brain" type="button" data-learning-game="process-scheduling">
+              <i class="ri-cpu-line"></i>
+              <h3>Process Scheduling Simulator</h3>
+              <p>Practice FCFS, SJF, and Round Robin with live scheduling outcomes.</p>
+              <span class="game-meta-pill">Operating System</span>
+            </button>
+            <button class="game-card game-puzzle" type="button" data-learning-game="cloud-builder">
+              <i class="ri-cloud-line"></i>
+              <h3>Cloud Architecture Builder</h3>
+              <p>Drag and place components to design a scalable cloud application.</p>
+              <span class="game-meta-pill">Cloud Computing</span>
+            </button>
+            <button class="game-card game-code" type="button" data-learning-game="data-rapid">
+              <i class="ri-bar-chart-box-line"></i>
+              <h3>Data Science Rapid Challenge</h3>
+              <p>Answer timed concept questions and build streak multipliers.</p>
+              <span class="game-meta-pill">Data Science</span>
+            </button>
+          </div>
+
+          <div class="learning-games-summary" data-learning-games-summary hidden>
+            <h3>Performance Summary</h3>
+            <p data-learning-games-summary-text></p>
+          </div>
+
+          <div class="learning-games-modal" data-learning-games-modal aria-hidden="true" role="dialog" aria-modal="true">
+            <div class="learning-games-modal__backdrop" data-learning-games-close></div>
+            <div class="learning-games-modal__panel" role="document">
+              <button class="learning-games-modal__close" type="button" aria-label="Close learning game" data-learning-games-close>
+                <i class="ri-close-line"></i>
+              </button>
+              <div class="learning-games-modal__header">
+                <p class="section-tag" data-learning-games-modal-tag>Learning Game</p>
+                <h3 data-learning-games-modal-title>Learning Challenge</h3>
+                <p data-learning-games-modal-copy></p>
+              </div>
+              <div class="learning-games-modal__content" data-learning-games-content></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dash-section" id="leaderboard">
+        <div class="dash-container">
+          <div class="section-head">
+            <div>
+              <p class="section-tag">See how you rank</p>
+              <h2>Game Leaderboards</h2>
+            </div>
+          </div>
+
+          <div class="leaderboard-tabs" data-leaderboard-tabs>
+            <button class="leaderboard-tab-btn is-active" type="button" data-leaderboard-filter="memory">
+              <i class="ri-brain-line"></i> Memory Boost
+            </button>
+            <button class="leaderboard-tab-btn" type="button" data-leaderboard-filter="logic">
+              <i class="ri-puzzle-2-line"></i> Logic Puzzle
+            </button>
+            <button class="leaderboard-tab-btn" type="button" data-leaderboard-filter="code">
+              <i class="ri-code-s-slash-line"></i> Code Sprint
+            </button>
+          </div>
+
+          <div class="leaderboard-container">
+            <div class="leaderboard-board" data-leaderboard-board="memory" data-active="true">
+              <div class="leaderboard-header">
+                <span class="rank-col">Rank</span>
+                <span class="name-col">Player</span>
+                <span class="score-col">Points</span>
+                <span class="level-col">Level</span>
+              </div>
+              <div class="leaderboard-list" data-leaderboard-list="memory">
+                <div class="leaderboard-loading">
+                  <p>Loading leaderboard...</p>
+                </div>
+              </div>
+              <div class="leaderboard-footer">
+                <p class="leaderboard-hint">Points update in real-time. Play games to climb the ranks!</p>
+              </div>
+            </div>
+
+            <div class="leaderboard-board" data-leaderboard-board="logic">
+              <div class="leaderboard-header">
+                <span class="rank-col">Rank</span>
+                <span class="name-col">Player</span>
+                <span class="score-col">Points</span>
+                <span class="level-col">Level</span>
+              </div>
+              <div class="leaderboard-list" data-leaderboard-list="logic">
+                <div class="leaderboard-loading">
+                  <p>Loading leaderboard...</p>
+                </div>
+              </div>
+              <div class="leaderboard-footer">
+                <p class="leaderboard-hint">Points update in real-time. Play games to climb the ranks!</p>
+              </div>
+            </div>
+
+            <div class="leaderboard-board" data-leaderboard-board="code">
+              <div class="leaderboard-header">
+                <span class="rank-col">Rank</span>
+                <span class="name-col">Player</span>
+                <span class="score-col">Points</span>
+                <span class="level-col">Level</span>
+              </div>
+              <div class="leaderboard-list" data-leaderboard-list="code">
+                <div class="leaderboard-loading">
+                  <p>Loading leaderboard...</p>
+                </div>
+              </div>
+              <div class="leaderboard-footer">
+                <p class="leaderboard-hint">Points update in real-time. Play games to climb the ranks!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dash-section">
+        <div class="dash-container">
+          <div class="section-head">
+            <div>
+              <p class="section-tag">Based on your activity</p>
+              <h2>Recommended for You</h2>
+            </div>
+          </div>
+
+          <div class="rail-scroll wide" data-rail>
+            <article class="recommend-card skeleton">
+              <div class="recommend-badge">AI Suggested</div>
+              <h3>Database Design Review</h3>
+              <p>Improve your understanding of schemas, keys, and normalization.</p>
+            </article>
+            <article class="recommend-card skeleton">
+              <div class="recommend-badge">Because you liked React</div>
+              <h3>React UI Systems</h3>
+              <p>Build scalable interfaces with component-driven workflows.</p>
+            </article>
+            <article class="recommend-card skeleton">
+              <div class="recommend-badge">Popular with peers</div>
+              <h3>Mixed Subject Exam Prep</h3>
+              <p>Sharpen your knowledge with timed revision sets and quizzes.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+      </div>
+
+      <section class="settings-shell" id="settings-shell" data-settings-shell hidden>
+        <div class="dash-container settings-layout">
+          <aside class="settings-sidebar glass-panel">
+            <button class="back-dashboard" type="button" data-close-settings>
+              <i class="ri-arrow-left-line"></i>
+              Back to Dashboard
+            </button>
+
+            <h2>Settings</h2>
+            <p>Manage your account, privacy, and preferences.</p>
+
+            <nav class="settings-nav" aria-label="Settings tabs">
+              <button class="settings-nav-btn is-active" type="button" data-settings-target="profile">Profile</button>
+              <button class="settings-nav-btn" type="button" data-settings-target="account">Account</button>
+              <button class="settings-nav-btn" type="button" data-settings-target="privacy">Privacy & Security</button>
+              <button class="settings-nav-btn" type="button" data-settings-target="notifications">Notifications</button>
+              <button class="settings-nav-btn" type="button" data-settings-target="appearance">Appearance</button>
+              <button class="settings-nav-btn" type="button" data-settings-target="help">Help & Support</button>
+            </nav>
+          </aside>
+
+          <div class="settings-content glass-panel">
+            <section class="settings-tab is-active" data-settings-tab="profile">
+              <h3>Profile Settings</h3>
+              <p class="settings-sub">Keep your profile information up to date.</p>
+
+              <div class="profile-upload upload-widget" data-image-upload-zone>
+                <input type="file" accept="image/*" data-image-input hidden />
+                <div class="upload-widget-head">
+                  <span class="avatar large" data-avatar-preview><span>AB</span></span>
+                  <div>
+                    <strong>Profile Picture</strong>
+                    <p>JPG, PNG, WEBP under 5MB</p>
+                  </div>
+                </div>
+
+                <div class="upload-preview-box">
+                  <img alt="Selected profile preview" data-image-preview hidden />
+                  <div class="upload-preview-placeholder" data-image-placeholder>
+                    <i class="ri-image-add-line"></i>
+                    <span>Drag & drop image here or select one</span>
+                  </div>
+                </div>
+
+                <div class="upload-actions-row">
+                  <button type="button" class="small-btn soft" data-upload-select-btn>Select Image</button>
+                  <button type="button" class="small-btn" data-upload-manual-btn>Upload Now</button>
+                </div>
+
+                <div class="upload-status-row">
+                  <span class="upload-loader" data-upload-loader hidden></span>
+                  <span class="upload-status" data-upload-status>No image selected yet.</span>
+                </div>
+              </div>
+
+              <div class="settings-grid two">
+                <label class="settings-field">
+                  <span>Full Name</span>
+                  <input type="text" value="Aarav Bhat" />
+                </label>
+                <label class="settings-field">
+                  <span>Email Address</span>
+                  <input type="email" value="aarav@edunova.com" />
+                </label>
+                <label class="settings-field">
+                  <span>Phone Number</span>
+                  <input type="tel" value="+91 98765 43210" />
+                </label>
+                <label class="settings-field">
+                  <span>Bio</span>
+                  <textarea rows="3">Student exploring full stack development and operating systems.</textarea>
+                </label>
+              </div>
+
+              <button type="button" class="btn btn-primary" data-save-settings>Save Changes</button>
+            </section>
+
+            <section class="settings-tab" data-settings-tab="account">
+              <h3>Account Settings</h3>
+              <p class="settings-sub">Control login security and active sessions.</p>
+
+              <div class="settings-grid three">
+                <label class="settings-field">
+                  <span>Current Password</span>
+                  <input type="password" placeholder="Enter current password" />
+                </label>
+                <label class="settings-field">
+                  <span>New Password</span>
+                  <input type="password" placeholder="Enter new password" />
+                </label>
+                <label class="settings-field">
+                  <span>Confirm Password</span>
+                  <input type="password" placeholder="Confirm new password" />
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <div>
+                  <strong>Two-Factor Authentication</strong>
+                  <p>Protect your account with an extra verification step.</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" checked />
+                  <span></span>
+                </label>
+              </div>
+
+              <div class="settings-card">
+                <h4>Connected Devices</h4>
+                <div class="device-item">
+                  <div>
+                    <strong>Windows Laptop</strong>
+                    <p>Mumbai, India • Last active 2 mins ago</p>
+                  </div>
+                  <button type="button" class="small-btn soft">Logout Device</button>
+                </div>
+                <div class="device-item">
+                  <div>
+                    <strong>iPhone 14</strong>
+                    <p>Pune, India • Last active 1 day ago</p>
+                  </div>
+                  <button type="button" class="small-btn soft">Logout Device</button>
+                </div>
+              </div>
+
+              <div class="settings-card danger">
+                <h4>Danger Zone</h4>
+                <p>Deleting your account is permanent and cannot be undone.</p>
+                <button type="button" class="small-btn danger-btn" data-open-delete-modal>Delete Account</button>
+              </div>
+
+              <button type="button" class="btn btn-primary" data-save-settings>Save Changes</button>
+            </section>
+
+            <section class="settings-tab" data-settings-tab="privacy">
+              <h3>Privacy & Security</h3>
+              <p class="settings-sub">Manage visibility, data usage, and account safety.</p>
+
+              <div class="settings-card">
+                <h4>Privacy Controls</h4>
+                <div class="toggle-row">
+                  <div>
+                    <strong>Make profile public</strong>
+                    <p>Allow other learners to discover your profile.</p>
+                  </div>
+                  <label class="switch"><input type="checkbox" /><span></span></label>
+                </div>
+                <div class="toggle-row">
+                  <div>
+                    <strong>Show learning progress to others</strong>
+                    <p>Share your milestones with classmates.</p>
+                  </div>
+                  <label class="switch"><input type="checkbox" checked /><span></span></label>
+                </div>
+                <div class="toggle-row">
+                  <div>
+                    <strong>Allow analytics tracking</strong>
+                    <p>Help improve course quality with anonymous analytics.</p>
+                  </div>
+                  <label class="switch"><input type="checkbox" checked /><span></span></label>
+                </div>
+              </div>
+
+              <div class="settings-card">
+                <h4>Data Management</h4>
+                <div class="inline-actions">
+                  <button type="button" class="small-btn" data-save-settings>Download My Data</button>
+                  <button type="button" class="small-btn soft" data-save-settings>Clear Search / Activity History</button>
+                </div>
+              </div>
+
+              <div class="settings-card">
+                <h4>Permissions</h4>
+                <div class="device-item">
+                  <div>
+                    <strong>Google Classroom</strong>
+                    <p>Connected for assignment syncing.</p>
+                  </div>
+                  <button type="button" class="small-btn soft" data-save-settings>Revoke Access</button>
+                </div>
+                <div class="device-item">
+                  <div>
+                    <strong>GitHub</strong>
+                    <p>Connected for coding submissions.</p>
+                  </div>
+                  <button type="button" class="small-btn soft" data-save-settings>Revoke Access</button>
+                </div>
+              </div>
+
+              <div class="settings-card">
+                <h4>Security Activity</h4>
+                <div class="device-item">
+                  <div>
+                    <strong>Chrome on Windows</strong>
+                    <p>Mumbai, India • Today, 10:24 AM</p>
+                  </div>
+                </div>
+                <div class="device-item">
+                  <div>
+                    <strong>Safari on iPhone</strong>
+                    <p>Pune, India • Yesterday, 9:02 PM</p>
+                  </div>
+                </div>
+                <div class="security-alert">
+                  <i class="ri-error-warning-line"></i>
+                  <span>Suspicious login detected from a new location 2 days ago.</span>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-primary" data-save-settings>Save Changes</button>
+            </section>
+
+            <section class="settings-tab" data-settings-tab="notifications">
+              <h3>Notifications</h3>
+              <p class="settings-sub">Choose when and how Edunova updates you.</p>
+
+              <div class="settings-card">
+                <div class="toggle-row">
+                  <div>
+                    <strong>Email notifications</strong>
+                    <p>Receive important updates in your inbox.</p>
+                  </div>
+                  <label class="switch"><input type="checkbox" checked /><span></span></label>
+                </div>
+                <div class="toggle-row">
+                  <div>
+                    <strong>Push notifications</strong>
+                    <p>Get instant updates on your device.</p>
+                  </div>
+                  <label class="switch"><input type="checkbox" checked /><span></span></label>
+                </div>
+                <div class="toggle-row">
+                  <div>
+                    <strong>Course reminders</strong>
+                    <p>Daily reminders for pending lessons.</p>
+                  </div>
+                  <label class="switch"><input type="checkbox" checked /><span></span></label>
+                </div>
+                <div class="toggle-row">
+                  <div>
+                    <strong>Quiz and game alerts</strong>
+                    <p>Updates for new challenges and leaderboard changes.</p>
+                  </div>
+                  <label class="switch"><input type="checkbox" /><span></span></label>
+                </div>
+                <div class="toggle-row">
+                  <div>
+                    <strong>Weekly progress report</strong>
+                    <p>Summary of learning performance every week.</p>
+                  </div>
+                  <label class="switch"><input type="checkbox" checked /><span></span></label>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-primary" data-save-settings>Save Changes</button>
+            </section>
+
+            <section class="settings-tab" data-settings-tab="appearance">
+              <h3>Appearance</h3>
+              <p class="settings-sub">Personalize your dashboard look and readability.</p>
+
+              <div class="settings-card">
+                <div class="toggle-row">
+                  <div>
+                    <strong>Dark Mode</strong>
+                    <p>Switch between dark and light theme.</p>
+                  </div>
+                  <label class="switch"><input type="checkbox" checked data-theme-mode /><span></span></label>
+                </div>
+              </div>
+
+              <div class="settings-card">
+                <h4>Theme Color</h4>
+                <div class="theme-swatches">
+                  <button type="button" class="swatch blue is-active" data-theme-color="blue" aria-label="Blue theme"></button>
+                  <button type="button" class="swatch purple" data-theme-color="purple" aria-label="Purple theme"></button>
+                  <button type="button" class="swatch teal" data-theme-color="teal" aria-label="Teal theme"></button>
+                </div>
+              </div>
+
+              <div class="settings-card">
+                <h4>Font Size</h4>
+                <label class="settings-field">
+                  <span>Adjust dashboard text size</span>
+                  <input type="range" min="14" max="18" value="16" data-font-size />
+                </label>
+              </div>
+
+              <button type="button" class="btn btn-primary" data-save-settings>Save Changes</button>
+            </section>
+
+            <section class="settings-tab" data-settings-tab="help">
+              <h3>Help & Support</h3>
+              <p class="settings-sub">Need help? Reach us quickly from here.</p>
+
+              <div class="settings-card">
+                <div class="inline-actions">
+                  <a href="#" class="small-btn">View FAQ</a>
+                  <button type="button" class="small-btn soft" data-save-settings>Contact Support</button>
+                  <button type="button" class="small-btn soft" data-save-settings>Report a Problem</button>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="dash-footer">
+      <div class="dash-container dash-footer-inner">
+        <div>
+          <a href="#top" class="dash-logo small">Edunova</a>
+          <p>Learning that feels as engaging as your favorite streaming platform.</p>
+        </div>
+        <div class="footer-links">
+          <a href="#discover" data-nav-route="courses">Courses</a>
+          <a href="./notes.html" data-nav-route="notes">Notes</a>
+          <a href="#quiz-section-wrapper">Quizzes</a>
+          <a href="#games">Games</a>
+          <a href="#settings-shell" data-nav-route="settings">Settings</a>
+        </div>
+        <p>© 2026 Edunova. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <div class="confirm-modal" aria-hidden="true" data-delete-modal>
+      <div class="confirm-modal__backdrop" data-close-delete-modal></div>
+      <div class="confirm-modal__panel">
+        <h3>Delete account?</h3>
+        <p>This action is permanent and will remove your progress data from Edunova.</p>
+        <div class="confirm-actions">
+          <button type="button" class="small-btn soft" data-close-delete-modal>Cancel</button>
+          <button type="button" class="small-btn danger-btn" data-confirm-delete>Yes, delete</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="save-toast" aria-live="polite" aria-atomic="true" data-save-toast>
+      Changes saved
+    </div>
+
+    <div class="game-modal" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="game-modal__backdrop" data-game-close></div>
+      <div class="game-modal__panel" role="document">
+        <button class="game-modal__close" type="button" aria-label="Close game modal" data-game-close>
+          <i class="ri-close-line"></i>
+        </button>
+
+        <div class="game-modal__header">
+          <div>
+            <p class="game-modal__eyebrow">Learning Games</p>
+            <h2 data-game-title>Memory Boost</h2>
+            <p data-game-description>
+              Flashcards, speed recall, and streak building.
+            </p>
+          </div>
+
+          <div class="game-stats">
+            <div>
+              <span>Difficulty</span>
+              <strong data-game-difficulty>Beginner</strong>
+            </div>
+            <div>
+              <span>XP</span>
+              <strong data-game-xp>120</strong>
+            </div>
+            <div>
+              <span>Score</span>
+              <strong data-game-score>0</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-play-area">
+          <div class="player-entry" data-game-player-entry>
+            <label for="game-player-name">Enter Your Name</label>
+            <div class="player-entry__row">
+              <input id="game-player-name" type="text" placeholder="Enter Your Name" data-game-player-name />
+              <button class="btn btn-primary" type="button" data-game-start>Start Game</button>
+            </div>
+            <small data-game-name-error></small>
+          </div>
+
+          <div class="game-topbar">
+            <div class="timer-pill">Time Left: <span data-game-timer>10</span>s</div>
+            <div class="streak-pill">Streak: <span data-game-streak>0</span> 🔥</div>
+            <div class="level-pill">Level <span data-game-level>1</span></div>
+          </div>
+
+          <div class="question-card">
+            <p class="question-tag" data-game-tag>Question 1 of 5</p>
+            <h3 data-game-question>Which component stores temporary memory used while a process runs?</h3>
+            <div class="options-grid" data-game-options></div>
+          </div>
+
+          <div class="game-feedback" data-game-feedback>Choose an answer to begin your run.</div>
+
+          <div class="game-actions">
+            <button class="btn btn-ghost" type="button" data-game-next disabled>Next Question</button>
+            <button class="btn btn-primary" type="button" data-game-submit-leaderboard disabled>Submit to Leaderboard</button>
+          </div>
+
+          <div class="scoreboard-row">
+            <div>
+              <span>Progress</span>
+              <div class="progress-line progress-line--game"><span data-game-progress style="width: 0%"></span></div>
+            </div>
+            <div>
+              <span>Daily Challenge</span>
+              <strong>+50 XP available</strong>
+            </div>
+            <div>
+              <span>Your Rank</span>
+              <strong data-game-rank>#--</strong>
+            </div>
+          </div>
+
+          <div class="local-leaderboard-shell">
+            <div class="quiz-leaderboard-head">
+              <h3>Game Leaderboard</h3>
+              <p>Local top players for this game mode</p>
+            </div>
+            <div class="quiz-leaderboard-list" data-game-local-leaderboard></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Course Detail Modal -->
+    <!-- Course Detail Modal -->
+    <div class="course-modal" data-course-modal aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="course-modal__backdrop" data-course-close></div>
+      <div class="course-modal__panel" role="document">
+        <button class="course-modal__close" type="button" aria-label="Close course details" data-course-close>
+          <i class="ri-close-line"></i>
+        </button>
+
+        <!-- Course Hero Section -->
+        <div class="course-hero" data-course-hero>
+          <div class="course-hero__background"></div>
+          <div class="course-hero__content">
+            <div>
+              <p class="course-category" data-course-category></p>
+              <h1 class="course-title" data-course-title></h1>
+              <p class="course-instructor" data-course-instructor></p>
+              <div class="course-meta-row">
+                <span class="rating"><i class="ri-star-fill"></i> <span data-course-rating></span></span>
+                <span class="students" data-course-students></span>
+                <span class="duration" data-course-duration></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course Content -->
+        <div class="course-content">
+          <div class="course-description" data-course-description></div>
+
+          <!-- Action Buttons -->
+          <div class="course-actions">
+            <button class="btn btn-primary" type="button" data-start-learning>Start Learning</button>
+            <button class="btn btn-ghost" type="button" data-toggle-wishlist>
+              <i class="ri-heart-line"></i> Add to Wishlist
+            </button>
+          </div>
+
+          <!-- Progress Section -->
+          <div class="course-progress-section" data-progress-section hidden>
+            <div class="progress-header">
+              <span>Course Progress</span>
+              <span class="progress-percent" data-progress-percent>0%</span>
+            </div>
+            <div class="progress-line"><span data-course-progress-bar style="width: 0%"></span></div>
+            <p class="progress-label" data-progress-label></p>
+          </div>
+
+          <!-- Modules Section -->
+          <div class="course-modules">
+            <h3>Course Curriculum</h3>
+            <div class="modules-list" data-modules-list></div>
+          </div>
+
+          <!-- Course Meta Info -->
+          <div class="course-meta-section">
+            <div class="meta-row">
+              <h4><i class="ri-download-line"></i> Resources</h4>
+              <button type="button" class="small-btn soft">Download All Materials</button>
+            </div>
+            <div class="meta-row">
+              <h4><i class="ri-discussion-line"></i> Discussion</h4>
+              <p>Join 200+ students discussing in the course forum</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="api-client.js"></script>
+    <script src="course-database.js"></script>
+    <script src="course-discovery.js"></script>
+    <script src="sound-effects.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="quiz.js"></script>
+    <script src="learning-games.js"></script>
+  </body>
+</html>
